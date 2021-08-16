@@ -1,21 +1,40 @@
+import React, {useState} from 'react'
 
-import React from 'react'
-
-  const Hello = (p) => {
+const Hello = (name, age) => {
+  const bornYear = () => {
+    const yearNow = new Date().getFullYear()
+    return yearNow - age
+  }
     return (
       <div>
-        <p>Hello {p.name} you are {p.age }</p>
+        hello world
+        <p>Hello {name} you are {age}.You were born in {bornYear()}</p>
       </div>
     );
   }
-function App() {
-  const name = 'shawn'
-  const age = 32
+const App = () => {
+  const [counter, setCounter] = useState(0)
+  // setTimeout(
+  //   () => setCounter(counter + 3), 2000
+  // )
+  const PlusClick = () => {
+    console.log(counter)
+  }
+  function plus() {
+    setCounter(counter + 1)
+  } 
+  // const name = 'shawn'
+  // const age = 32
   return (
     <div>
-      <Hello name={name} age={age} />
-  
-      <Hello name={'srs'} age={100000}/>
+      {/* <Hello name={name} age={age} /> */}
+      {counter}
+      {setCounter}
+      <button onClick={PlusClick}>log</button>
+      <button onClick={plus}>plus</button>
+      <button onClick={() => setCounter(counter - 1)}>minus</button>
+      <button onClick={()=>setCounter(0)}>Reset</button>
+      {/* <Hello name={'srs'} age={100000}/> */}
     </div>
   );
 }
