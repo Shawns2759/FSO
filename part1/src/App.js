@@ -12,6 +12,10 @@ const Part = ({ name, exercise }) => {
   )
 }
 const Content = ({parts}) => {
+  let p = 0;
+  for(p of parts){
+    console.log(p.name )
+  }
   return (
     <div>
       <Part name={parts[0].name} exercise={parts[0].exercises} />
@@ -23,6 +27,13 @@ const Content = ({parts}) => {
 }
 
 const App = () => {
+  const name = {
+    name: 'shawn',
+    age: 34,
+    greet:  (x)=>{
+      console.log('hello', x, name.name)
+    }
+  }
   const course = {
     name: 'Half Stack application development',
     parts: [
@@ -42,10 +53,21 @@ const App = () => {
   }
 
 
+  const arto = {
+  name: 'Arto Hellas',
+  greet: function() {
+    console.log('hello, my name is ' + this.name)
+  },
+}
+
+setTimeout(arto.greet.bind(arto), 1000)
+
+
   return (
     <div>
+      {name.greet('srs')}
       <Header name={course.name} />
-      <Content parts={course.parts}/>
+      <Content parts={course.parts} />
 
     </div>
   )
