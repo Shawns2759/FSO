@@ -2,15 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App.js'
 
-let counter = 1
-counter += 7
+let c = 17
+// counter += 7
 
-const refresh = () => {
-  ReactDOM.render(<App counter={counter} />,
+// const refresh = () => {
+//   ReactDOM.render(<App counter={counter} />,
+//   document.getElementById('root'))
+// }
+// refresh()
+
+
+
+ReactDOM.render(<App c={c}/>,
   document.getElementById('root'))
-}
-refresh()
-
 
   
 
