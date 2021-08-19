@@ -1,76 +1,75 @@
 
-import React from 'react'
+import { React, useState } from 'react'
 
-const Header = ({name}) => {
+const Button = ({text, func}) => {
   return (
-    <h1>{name}</h1>
+    <button onClick={func}>{text}</button>
   )
 }
-const Part = ({ name, exercise }) => {
-  return (
-    <div>name:{name} exercise:{exercise}</div>
-  )
-}
-const Content = ({parts}) => {
-  let p = 0;
-  for(p of parts){
-    console.log(p.name )
-  }
+
+const Display = ({goodCount, all, neturalCount, badCount}) => {
   return (
     <div>
-      <Part name={parts[0].name} exercise={parts[0].exercises} />
-      <Part name={parts[1].name} exercise={parts[1].exercises} />
-      <Part name={parts[2].name} exercise={parts[2].exercises} />
-  
+      <h1>Statistics</h1>
+          <div>
+          Good:{goodCount}
+          </div>
+          <div>
+          Bad:{badCount}  
+          </div>
+          <div>
+          Netural:{neturalCount}
+          </div>
+          <div>
+          All:{all}
+          </div>
     </div>
   )
 }
-
+const Stats = ({goodCount, all, neturalCount, badCount}) => {
+  if (!all) {
+    return (
+      <div>
+       No FeedBack Given
+      </div>
+    )
+  }
+  return (
+    <div>
+      <Display goodCount={goodCount} all={all} badCount={badCount} neturalCount={neturalCount}/> <br/><br/>
+      <div>
+      <span>Good:</span><span>{(goodCount / all * 100)}%</span>
+      </div>
+      <div>
+      <span>Bad:</span><span>{Math.abs(badCount/all * 100)}%</span>
+      </div>
+      <div>
+      <span>Netural:</span><span>{(neturalCount/all * 100)}%</span>
+      </div>
+    </div>
+ )
+}
 const App = () => {
-  const name = {
-    name: 'shawn',
-    age: 34,
-    greet:  (x)=>{
-      console.log('hello', x, name.name)
-    }
-  }
-  const course = {
-    name: 'Half Stack application development',
-    parts: [
-     {
-        name: 'Fundamentals of React', 
-        exercises: 10
-      },
-      {
-        name: 'Using props to pass data', 
-        exercises: 7
-      },
-      {
-        name: 'State of a component', 
-        exercises: 17
-      }
-    ]
-  }
 
-
-  const arto = {
-  name: 'Arto Hellas',
-  greet: function() {
-    console.log('hello, my name is ' + this.name)
-  },
-}
-
-setTimeout(arto.greet.bind(arto), 1000)
-
-
+  let [ goodCount, setGood] = useState(0);
+  let [ neturalCount, setNetural] = useState(0);
+  let [ badCount, setBad ] = useState(0);
+  let all = Math.abs(badCount) + goodCount + neturalCount
   return (
-    <div>
-      {name.greet('srs')}
-      <Header name={course.name} />
-      <Content parts={course.parts} />
-
-    </div>
+    <>
+      <div>
+        Good:{goodCount}  Bad:{badCount}  Netural:{neturalCount}  All:{all}
+        <Button text='plus' func={() => setGood(goodCount + 1)} />
+        <Button text='Bad' func={() => setBad(badCount - 1)} />
+        <Button text='Netural' func={() => setNetural(neturalCount + 1)} />
+        <div>
+    
+          <div>
+            <Stats goodCount={goodCount} all={all} badCount={badCount} neturalCount={neturalCount}/>
+          </div>
+        </div>
+      </div>
+    </>
   )
 }
-
 export default App;
