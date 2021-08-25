@@ -1,4 +1,7 @@
 import React from 'react'
+import Notes from './components/Note'
+
+
 
 const GreatestNum = ({nums}) => {
   let total = 0
@@ -9,12 +12,12 @@ const GreatestNum = ({nums}) => {
 
 
   let evenNums = nums.filter((num) => {
-    return num % 2 == 0 
+    return num % 2 === 0 
   })
   console.log(evenNums);
   
   function showNums(set) {
-    let nums = set.map((num, i) => {
+    let nums = set.map((num) => {
       return num + ', '
     })
     return nums
@@ -26,7 +29,6 @@ const GreatestNum = ({nums}) => {
     <div>
       addition of {showNums(nums)} = {(total)} 
       evens in {nums} = {showNums(evenNums)} 
-     
 
     </div>
   )
@@ -39,12 +41,8 @@ const App = ({notes, nums}) => {
   return (
     <div>
       <h1>Notes</h1>
-      <ul>
-        <li>{notes[0].content}</li>
-        <li>{notes[1].content}</li>
-        <li>{notes[2].content}</li>
-      </ul>
-      <GreatestNum nums={nums}/>
+      <GreatestNum nums={nums} />
+      <Notes notes={notes}/>
     </div>
   )
 }
