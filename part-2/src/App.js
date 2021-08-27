@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Notes from './components/Note'
 
 
@@ -36,7 +36,7 @@ const GreatestNum = ({nums}) => {
 
 
 const App = ({notes, nums}) => {
-
+   
 
   return (
     <div>
