@@ -1,14 +1,29 @@
 import { React, useState } from 'react';
 
+const AllNotes = ({ key, note }) => {
+  let notes = note.map((n) => {
+    return <li key={n.key}>{n.content}</li>
+  })
+
+  return (
+    <div>
+     {notes}
+    </div>
+  )
+}
 
 const Notes = ({ notes }) => {
 
   const [note, setNote] = useState(notes)
   const [newNote, setNewNote] = useState('')
+  const [showAll, setShowAll] = useState(true)
 
-    let allNotes = notes.map((note,i) => {
-      return <li key={note.id}>{note.id}: {note.content}, {i}</li>
-    })
+  const notesToShow = showAll ? notes : notes.filter(note => note.important)
+  console.log(notes.filter(note => note.important)+ 'asdfasdjkfhasdkjlfhalsdf');
+
+  const toggle = () => {
+    setShowAll((!showAll))
+  }
   
   const addNote = (event) => {
     event.preventDefault()
@@ -31,8 +46,13 @@ const Notes = ({ notes }) => {
   }
     return (
       <div>
+        <div>
+          <button onClick={toggle}>
+      show {showAll? 'important': 'all'}
+          </button>
+        </div>
         <ul>
-          {allNotes}
+          <AllNotes note={notesToShow} />
         </ul>
         {newNote} 
         <form onSubmit={addNote} action='#'>
@@ -50,57 +70,3 @@ export default Notes
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const Form = () => {
-//   const [username, setUserName] = useState('')
-//   const isLower = username === username.toLowerCase()
-//   const error = isLower ? null : 'username must be lowercase';
-//   const handleChange = (e) => {
-//     setUserName(e.target.value.toLowerCase())
-//   }
-//   const handleSubmit = (e) => {
-//     e.preventDefault()
-//     console.log(username);
-//   }
-//   return (
-//     <div>
-//       <form onSubmit={handleSubmit}>
-//         <label htmlFor="note">Note</label>
-//         <input id='note' name='note' type="text" onChange={handleChange} value={username}/>
-//         <div style={{ color: 'red' }}>
-//         {error}
-//         </div>
-//         <button disabled={Boolean(error)}>Submit</button>
-//       </form>
-//       {username}
-//     </div>
-//   )
-// }
-
-// const Notes = ({notes}) => {
-//   // let {newNote, setNewNote} = useState('old note')
-//     let note = notes.map((note) => {
-//       return <li key={note.id}>{note.content}</li>
-//     })
-  
-  
-//   return (
-//     < div >
-//       {note}
-//     <Form/>
-//     </div >
-//   )
-// }
-  
