@@ -1,6 +1,7 @@
-import { React, useState } from 'react'
+import { React, useState, useEffect } from 'react'
 import Search from './Search'
 import AddContact from './AddContact'
+import axios from 'axios'
 // import PhoneNumber from './PhoneNumber'
 
 
@@ -11,14 +12,20 @@ import AddContact from './AddContact'
 function App() {
 
   const [newName, setNewName] = useState('')
-  const [person, setPerson] = useState([
-    { name: 'shawn',num: '208-123-4567' ,id: 1 },
-    { name: 'robert',num: '208-123-4567' ,id: 2 },
-    { name: 'jackson',num: '208-123-4567' ,id: 3 },
-  ])
+  const [person, setPerson] = useState([])
   const [inputVal, setInputVal] = useState('')
   const [numVal, setNumVal] = useState('')
 
+  const hook = () => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then((res) => {
+        console.log(res.data);
+        setPerson(res.data)
+      })
+  }
+
+  useEffect(hook, [])
 
 
   return (
