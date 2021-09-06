@@ -1,50 +1,72 @@
-import React, { useState } from 'react'
-import Notes from './components/Note'
+
+
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+
+// import Note from './components/Note'
 
 
 
-const GreatestNum = ({nums}) => {
-  let total = 0
-  for (let n in nums) {
-    total += nums[n]
-  }
-  // console.log(total + 'total');
-
-
-  let evenNums = nums.filter((num) => {
-    return num % 2 === 0 
-  })
-  // console.log(evenNums);
+const App = () => {
+  const [notes, setNotes] = useState([])
+  const [newNote, setNewNote] = useState('')
   
-  function showNums(set) {
-    let nums = set.map((num) => {
-      return num + ', '
+  const hook = () => {
+    console.log('effect')
+    axios
+    .get('http://localhost:3001/notes')
+    .then(response => {
+      console.log('promise fulfilled')
+      setNotes(response.data)
     })
-    return nums
+  }
+  useEffect(hook, [])
+
+
+  console.log('render', notes.length, 'notes')
+
+
+  const notesMap = () => {
+    let noteLi = notes.map((note) => {
+      return <li key={note.id}>{note.content}</li>
+    })
+    return noteLi
+  }
+  const addNote = (event) => {
+    event.preventDefault()
+    const noteObject = {
+      content: newNote,
+      date: new Date().toISOString(),
+      important: Math.random() > 0.5,
+      id: notes.length + 1,
+    }
+    
+    setNotes(notes.concat(noteObject))
+    setNewNote('')
   }
 
-
-  
-  return (
-    <div>
-      addition of {showNums(nums)} = {(total)} 
-      evens in {nums} = {showNums(evenNums)} 
-
-    </div>
-  )
-}
-
-
-const App = ({notes, nums}) => {
-   
+  const handleNoteChange = (event) => {
+    console.log(event.target.value)
+    setNewNote(event.target.value)
+  }
 
   return (
     <div>
       <h1>Notes</h1>
-      {/* <GreatestNum nums={nums} /> */}
-      <Notes notes={notes}/>
+      <ul>
+        {notesMap()}
+      </ul>
+      <form onSubmit={addNote}>
+        <input
+          value={newNote}
+          onChange={handleNoteChange}
+        />
+        <button type="submit">save</button>
+      </form>  
     </div>
   )
 }
 
-export default App;
+export default App
+
+// npx json-server --port 3001 --watch db.json
