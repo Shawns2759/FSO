@@ -1,14 +1,15 @@
 import { React, useState } from 'react'
 import Country from './Country.js'
+import Weather from './Weather'
 
 const Search = ({country}) => {
     const [searchVal, setSearchVal] = useState([])
     const [foundCountry, setFoundCountry] = useState([])
     const [several,setSeveral] = useState([])
-
+    let selectedC = ''
     const handleChange = (e) => {
         setSearchVal(e.target.value)
-        const selectedC = country.filter((c) => {
+         selectedC = country.filter((c) => {
             return c.name.toLowerCase().includes(e.target.value.toLowerCase())
         })
             setFoundCountry(selectedC[0])
@@ -22,17 +23,19 @@ const Search = ({country}) => {
 
     return (
         <div>
-            {foundCountry}
+            {/* {foundCountry} */}
+            {
+                several.map((m) => {
+                return <li>{m.name}</li>
+                })}
+
             <form action="#" >
             {/* onSubmit={handleSubmit} */}
                 <label htmlFor="search">search</label><input id="search" name="search" value={searchVal} onChange={handleChange}></input>
                 {/* <button>Submit</button> */}
             </form>
-            {
-                several.map((m) => {
-                return <li>{m.name}</li>
-                })}
-            <Country several={several} foundCountry={foundCountry}/>
+            <Country several={several} foundCountry={foundCountry} />
+            <Weather foundCountry={foundCountry}/>
         </div>
     )
 }

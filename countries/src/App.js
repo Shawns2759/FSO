@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Search from './components/Search'
+
 import axios from 'axios'
 
 
@@ -16,7 +17,8 @@ function App() {
   // console.log(country);
   return (
     <div>
-      <Search country={country}/>
+      <Search country={country} />
+
     </div>
   );
 }
