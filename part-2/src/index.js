@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-
+import './index.css'
 
 
 
@@ -13,16 +13,6 @@ import App from './App';
     );
 
 
-//   const promise = axios
-//   .get('http://localhost:3001/notes')
-//   .then(res => {
-//     ReactDOM.render(
-//       <React.StrictMode>
-//         <App notes={res.data}/>,
-//       </React.StrictMode>,
-//       document.getElementById('root')
-//     );
-// })
 
 
 

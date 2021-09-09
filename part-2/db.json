@@ -27,7 +27,7 @@
     {
       "content": "hello",
       "date": "2021-09-07T15:18:10.098Z",
-      "important": false,
+      "important": true,
       "id": 5
     },
     {
@@ -45,7 +45,7 @@
     {
       "content": "wowow",
       "date": "2021-09-07T15:41:04.294Z",
-      "important": false,
+      "important": true,
       "id": 8
     },
     {
@@ -69,19 +69,19 @@
     {
       "content": "hat",
       "date": "2021-09-07T17:48:18.009Z",
-      "important": false,
+      "important": true,
       "id": 12
     },
     {
       "content": "horse",
       "date": "2021-09-07T18:44:37.341Z",
-      "important": false,
+      "important": true,
       "id": 13
     },
     {
       "content": "h",
       "date": "2021-09-07T18:45:23.258Z",
-      "important": true,
+      "important": false,
       "id": 14
     },
     {
@@ -93,8 +93,14 @@
     {
       "content": "a;sjdhfl",
       "date": "2021-09-07T23:16:35.933Z",
-      "important": true,
+      "important": false,
       "id": 16
+    },
+    {
+      "content": "hat",
+      "date": "2021-09-09T18:02:55.806Z",
+      "important": false,
+      "id": 17
     }
   ]
 }

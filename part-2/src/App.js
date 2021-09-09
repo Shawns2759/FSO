@@ -5,6 +5,7 @@ import axios from 'axios'
 
 import Note from './components/Note'
 import funcs from './services/notes'
+import Error from './components/error'
 
 const {read, create, update, hello} = funcs
 
@@ -15,6 +16,7 @@ const App = () => {
   const [newNote, setNewNote] = useState('')
   const [important, setImportant] = useState(true)
   const [showAll, setShowAll] = useState(true)
+  const [errMsg, setErrMsg] = useState('')
 
   useEffect(() => {
     read().then((res) => {
@@ -39,7 +41,10 @@ const App = () => {
     create(noteObject).then((res) => {
       setNotes(notes.concat(res))
     }).catch(err =>{
-      console.log(err + 'this is a error');
+      setErrMsg(err)
+      setTimeout(() => {
+        setErrMsg(null)
+      }, 5000)
     })
     setNewNote('')
   }
@@ -52,8 +57,11 @@ const App = () => {
     update(changedNote, url).then((res) => {
       setNotes(notes.map(note => note.id !== id ? note : res))
       console.log(res.data);
-    }).catch(err =>{
-      console.log(err + 'this is a error');
+    }).catch(err => {
+      setErrMsg(err)
+      setTimeout(() => {
+        setErrMsg(null)
+      }, 5000)
     })
   }
 
@@ -76,7 +84,8 @@ const App = () => {
           onChange={handleNoteChange}
         />
         <button type="submit">save</button>
-      </form>  
+      </form> 
+      <Error msg={errMsg}/>
     </div>
   )
 }

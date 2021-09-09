@@ -1,0 +1,11 @@
+.errMsg{
+   font-size: 200%;
+   color: red;
+   margin-top: 10rem;
+}
+
+.errMsg > span{
+    border:3px solid white;
+    padding: 1rem;
+}
+/* background: lightgrey; */
