@@ -5,7 +5,7 @@ const get = () => {
     return axios.get('http://localhost:3001/persons')
 }
 const post = (nameObj) => {
-    console.log(nameObj);
+    // console.log(nameObj);
     return axios.post('http://localhost:3001/persons', nameObj)
 }
 const deleteNum = (id) => {

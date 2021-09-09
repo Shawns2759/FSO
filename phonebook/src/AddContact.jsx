@@ -1,10 +1,12 @@
 import { useState, React } from 'react'
 import axios from 'axios'
 import funcs from './routes'
+import Error from './Error.js'
 const {get,post, deleteNum} = funcs
   
 const AddContact = ({ newName, person, inputVal, numVal,setNewName, setPerson, setInputVal, setNumVal }) => {
-    
+  const [errMsg, setErrMsg] = useState('')  
+  const [style, setStyle] = useState("errSpan")
     const handleChange = (e) => {
         setInputVal(e.target.value)
     }
@@ -14,54 +16,36 @@ const AddContact = ({ newName, person, inputVal, numVal,setNewName, setPerson, s
         setNumVal(e.target.value)
       }
  
-  // function isNumDuplicated(numVal, inputVal) {
-  //   get().then((res) => {
-  //     for (let i in res.data) {
-  //       let id = res.data[i].id
-  //       if (numVal == res.data[i].number) {
-  //         let obj = {
-  //           name: inputVal,
-  //           number: res.data[i].number,
-  //           id: res.data[i].id
-  //         }
-  //         return axios.put(`http://localhost:3001/persons/${id}`, obj).then((res) => {
-  //           console.log(res.data);
-  //         })
-  //       }
-  //     }
-  //   })
-  // }  
-  
-  
-      function isRepeat(inputVal) {
-        // console.log(inputVal, person[0].name);
-        let result = []
-        for (let i in person) {
-          if (person[i].name !== inputVal) {
-            continue
-          } else {
-            result.push(person[i].name)
-          }
-        }
-        if (result.length) {
-          return {
-            bool: false,
-            result: result
-          }
-        } else {
-          return {
-            bool: true,
-            result: null
-          }
-        }
+
+  function isRepeat(inputVal) {
+    // console.log(inputVal, person[0].name);
+    let result = []
+    for (let i in person) {
+      if (person[i].name !== inputVal) {
+        continue
+      } else {
+        result.push(person[i].name)
       }
-  
-  function del(id) {
-        window.confirm('delete this entire?')
-        deleteNum(id).then((res) => {
-          setPerson(person.filter((p) => p.id !== id));
-        })
-      }  
+    }
+    if (result.length) {
+      return {
+        bool: false,
+        result: result
+      }
+    } else {
+      return {
+        bool: true,
+        result: null
+      }
+    }
+  }
+
+function del(id) {
+    window.confirm('delete this entire?')
+    deleteNum(id).then((res) => {
+      setPerson(person.filter((p) => p.id !== id));
+    })
+  }  
   
   const persons = () => {
         
@@ -93,35 +77,49 @@ const AddContact = ({ newName, person, inputVal, numVal,setNewName, setPerson, s
         let duplicated = isRepeat(inputVal)
     
         if (duplicated.bool === false) {
-          alert(`${duplicated.result} already used`)
+          alert(`${duplicated.result} already used do you want to change number?`)
+          let pObj = person.filter((res) => {
+            console.log(res.name, duplicated.result[0]);
+            return res.name === duplicated.result[0]
+          })
+          let obj = {
+                      name: inputVal,
+                      number: numVal,
+                      id: duplicated.result[0].id
+                    }
+          axios.put(`http://localhost:3001/persons/${pObj[0].id}`, obj)
+            .then((res) => {
+              console.log(res.data, person);
+              let p = person.concat(res.data)
+              setErrMsg('success')
+              setStyle('successSpan')
+              setTimeout(() => {
+                setErrMsg(null)
+              }, 5000)
+              return setPerson(p)
+            })
+            setInputVal('')
+            setNumVal('')
           return 
         }
-
-        // let numDeup = isNumDuplicated(numVal, inputVal)
-        // console.log(numDeup);
-        // const existingPerson = person.find((p) => p.number == numVal)
-
-        // let personObj = {
-        //   name: inputVal,
-        //   number: numVal,
-        //   id: existingPerson.id
-        // }
-        // if (existingPerson != undefined || null) {
-        //   window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)
-        //   axios.put(`http://localhost:3001/persons/${existingPerson.id}`, personObj).then((res) => {
-        //     console.log(res.data);
-        //   })
-        // }
 
         
         post(nameObj)
           .then((res) => {
-            console.log(res.data, 'dataaaa');
             let p = person.concat(res.data)
             setPerson(p)
+            setErrMsg('success')
+            setStyle('successSpan')
+            setTimeout(() => {
+              setErrMsg(null)
+            }, 5000)
+            
           })
           .catch((err) => {
-            console.log(err + 'errorrrrrrr');
+            setErrMsg(err)
+            setTimeout(() => {
+              setErrMsg(null)
+            }, 5000)
           })
           
           setInputVal('')
@@ -132,7 +130,7 @@ const AddContact = ({ newName, person, inputVal, numVal,setNewName, setPerson, s
 
     return (
         <div>
-
+          <Error msg={errMsg} style={style} />
             <form onSubmit={handleSubmit}>
                 <div>
                   name:<input onChange={handleChange} value={inputVal} name="personName" />
