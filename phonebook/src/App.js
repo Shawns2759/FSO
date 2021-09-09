@@ -2,7 +2,8 @@ import { React, useState, useEffect } from 'react'
 import Search from './Search'
 import AddContact from './AddContact'
 import axios from 'axios'
-// import PhoneNumber from './PhoneNumber'
+import funcs from './routes'
+const { get } = funcs
 
 
 
@@ -17,9 +18,7 @@ function App() {
   const [numVal, setNumVal] = useState('')
 
   const hook = () => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then((res) => {
+     get().then((res) => {
         console.log(res.data);
         setPerson(res.data)
       })

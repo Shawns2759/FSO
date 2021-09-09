@@ -1,0 +1,15 @@
+body{
+    font-size: 170%;
+}
+
+.submitBtn{
+    font-size: 120%;
+    color: rgb(56, 45, 45);
+    margin: 1rem;
+    padding: .5rem;
+    background-color: rgb(71, 71, 182);
+    border-radius: 10%;
+    border-color: white;
+    border-width: 3px;
+    background-position: absolute;
+}

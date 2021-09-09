@@ -17,7 +17,7 @@ const Person = ({searchState}) => {
                 Person: {searchState.name}
             </div>
             <div>
-                Number: {searchState.num}
+                Number: {searchState.number}
             </div>
         </div>
     )
