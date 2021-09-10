@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express()
+app.use(express.json())
 
 let notes = [
     {
@@ -51,8 +52,27 @@ app.delete('/notes/:id', (req, res) => {
     notes = newNotes
     res.send(notes)
 })
+
+app.post('/notes', (req, res) => {
+    const content = req.body
+    if (!content|| !content.content|| !content.important) {
+        res.status(404).json({ 
+            error: 'content missing' 
+          })
+    }
+    let maxId = notes.reduce((sum, note) => {
+        return sum = note.id
+    }, 0)
     
-console.log(notes);
+     
+    let note = req.body
+    note.id = maxId + 1
+    note.date = new Date();
+    notes.push(note)
+    res.send(notes)
+})
+    
+
 
 const port = 3000
 app.listen(port, () => {
