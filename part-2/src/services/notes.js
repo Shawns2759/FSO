@@ -3,15 +3,17 @@ import axios from 'axios'
 const baseUrl = 'http://localhost:3001/notes'
 
 const read = () => {
-    const request = axios.get(baseUrl)
-
+    const request = axios.get(`${baseUrl}`)
+    console.log(request);
  return request.then((res)=>{
      return res.data
  })
 }
 const create = (newObj) => {
+    console.log(newObj);
  const req = axios.post(baseUrl, newObj)
- return req.then(res=>{
+    return req.then(res => {
+     console.log(res.data , 'res .daatatatat');
      return res.data
  })
 }
@@ -21,13 +23,17 @@ const update = (changedNote,url) => {
      return res.data
  })
 }
-const hello = () => {
-    console.log('hellow ');
+const del = (id) => {
+    const req = axios.delete(`${baseUrl}/${id}`)
+    return req.then((res) => {
+        return res.data
+    })
 }
+
 let funcs = {
 read,
 create,
-update,
-hello
+    update,
+del
 }
 export default funcs

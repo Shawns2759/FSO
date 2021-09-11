@@ -7,7 +7,7 @@ import Note from './components/Note'
 import funcs from './services/notes'
 import Error from './components/error'
 
-const {read, create, update, hello} = funcs
+const { read, create, update } = funcs
 
 
 
@@ -20,6 +20,7 @@ const App = () => {
 
   useEffect(() => {
     read().then((res) => {
+      console.log(res.data);
       setNotes(res)
     }).catch(err =>{
       console.log(err + 'this is a error');
