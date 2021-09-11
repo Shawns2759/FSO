@@ -2,6 +2,21 @@ const express = require('express');
 const app = express()
 app.use(express.json())
 
+const cors = require('cors')
+app.use(cors())
+
+
+const requestLogger = (request, response, next) => {
+    console.log('Method:', request.method)
+    console.log('Path:  ', request.path)
+    console.log('Body:  ', request.body)
+    console.log('---')
+    next()
+}
+  
+// app.use(requestLogger)
+
+
 let notes = [
     {
       id: 1,
@@ -23,8 +38,8 @@ let notes = [
     }
   ]
 
-app.get('/', (req, res) => {
-    res.send('<h1>Hello world</h1>')
+app.get('/notes', (req, res) => {
+    res.send(notes)
 })
 app.get('/notes/:id', (req, res) => {
     let { id } = (req.params)
@@ -41,9 +56,7 @@ app.get('/notes/:id', (req, res) => {
         res.status(404).send('<div>Not Found</div>')
     }
 })
-app.get('*', (req, res) => {
-    res.send('all')
-})
+
 app.delete('/notes/:id', (req, res) => {
     let { id } = (req.params)
     let newNotes = notes.filter((n) => {
@@ -69,12 +82,24 @@ app.post('/notes', (req, res) => {
     note.id = maxId + 1
     note.date = new Date();
     notes.push(note)
-    res.send(notes)
+    res.send(note)
 })
+
+app.put('/notes/:id', (req, res) => {
+    const { id } = req.params
+    console.log(notes[id]);
+    res.send('?')
+})
+
+const unknownEndpoint = (request, response) => {
+    response.status(404).send({ error: 'unknown endpoint' })
+  }
+  
+  app.use(unknownEndpoint)
     
 
 
-const port = 3000
+const port = 3001
 app.listen(port, () => {
-    console.log('working on 3000');
+    console.log('working on 3001');
 })
