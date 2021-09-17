@@ -1,9 +1,26 @@
 const express = require('express');
 const app = express()
 app.use(express.json())
-
+const Note = require('./mongoDb')
+const dotenv = require("dotenv")
+dotenv.config()
+const Mongoose = require('mongoose')
 const cors = require('cors')
 app.use(cors())
+
+
+
+// const newNote = new Note({
+//     content: 'Cloud is fun',
+//     date: new Date(),
+//     important: true
+// })
+
+// newNote.save().then(res => {
+//     console.log('saved');
+//     Mongoose.connection.close()
+// })
+
 
 
 const requestLogger = (request, response, next) => {
@@ -39,7 +56,10 @@ let notes = [
   ]
 
 app.get('/notes', (req, res) => {
-    res.send(notes)
+    // Note.deleteMany({})
+    Note.find({}).then(notes => {
+        return res.json(notes)
+    })
 })
 app.get('/notes/:id', (req, res) => {
     let { id } = (req.params)
@@ -63,33 +83,30 @@ app.delete('/notes/:id', (req, res) => {
         return n.id != id
     })
     notes = newNotes
+    Note.delete({})
     res.send(notes)
 })
 
-app.post('/notes', (req, res) => {
-    const content = req.body
-    if (!content|| !content.content|| !content.important) {
-        res.status(404).json({ 
-            error: 'content missing' 
-          })
-    }
-    let maxId = notes.reduce((sum, note) => {
-        return sum = note.id
-    }, 0)
-    
-     
-    let note = req.body
-    note.id = maxId + 1
-    note.date = new Date();
-    notes.push(note)
-    res.send(note)
+app.post('/notes', async (req, res) => {
+    let data = req.body
+    const newNote = new Note({
+        content: data.content,
+        important: data.important, 
+        date: new Date()
+    })
+    await newNote.save().then(res => {
+        console.log('saved');
+        // Mongoose.connection.close()
+    })
+    res.json(newNote)
 })
 
-app.put('/notes/:id', (req, res) => {
-    const { id } = req.params
-    console.log(notes[id]);
-    res.send('?')
-})
+// app.put('/notes/:id', (req, res) => {
+//     const { id } = req.params
+//     Note.findOneAndUpdate(id, ).then(data => {
+//         res.send(data)
+//     })
+// })
 
 const unknownEndpoint = (request, response) => {
     response.status(404).send({ error: 'unknown endpoint' })
