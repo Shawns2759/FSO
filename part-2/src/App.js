@@ -20,10 +20,10 @@ const App = () => {
 
   useEffect(() => {
     read().then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       setNotes(res)
     }).catch(err =>{
-      console.log(err + 'this is a error');
+      // console.log(err + 'this is a error');
     })
   },[])
 
@@ -34,9 +34,7 @@ const App = () => {
     event.preventDefault()
     const noteObject = {
       content: newNote,
-      date: new Date().toISOString(),
       important: Math.random() > 0.5,
-      id: notes.length + 1,
     }
 
     create(noteObject).then((res) => {
@@ -57,7 +55,7 @@ const App = () => {
     const changedNote = { ...note, important: !note.important }
     update(changedNote, url).then((res) => {
       setNotes(notes.map(note => note.id !== id ? note : res))
-      console.log(res.data);
+      // console.log(res.data);
     }).catch(err => {
       setErrMsg(err)
       setTimeout(() => {
@@ -67,7 +65,7 @@ const App = () => {
   }
 
   const handleNoteChange = (event) => {
-    console.log(event.target.value)
+    // console.log(event.target.value)
     setNewNote(event.target.value)
   }
 
